@@ -5,7 +5,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
-const { crearUsuario, loginUsuario, revalidarToken } = require('../controllers/auth');
+const { crearUsuario, loginUsuario, revalidarToken, getUsuarios, getUsuario, putUsuario, getProfile } = require('../controllers/auth');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
 
@@ -34,8 +34,15 @@ router.post(
     loginUsuario 
 );
 
+router.get('/usuarios', getUsuarios);
+
+router.get('/profile', getProfile); //busca perfilesp
+
+router.get('/user/:email', getUsuario); //busca por usuario
 
 router.get('/renew', validarJWT ,revalidarToken );
+
+router.put('/usuarios/:id', putUsuario )
 
 
 

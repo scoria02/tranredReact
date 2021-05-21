@@ -1,18 +1,18 @@
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
+const { Sequelize } = require('sequelize');
 
+
+const db = new Sequelize(process.env.DB, process.env.DB_USER, process.env.DB_PASS, {
+    host: process.env.DB_HOST,
+    dialect: 'mysql'
+})
 
 const dbConnection = async() => {
 
     try {
         
-        await mongoose.connect( process.env.DB_CNN , {
-            useNewUrlParser: true, 
-            useUnifiedTopology: true,
-            useCreateIndex: true
-        });
-
-        console.log('DB Online');
-
+        await db.authenticate();
+        console.log('DB Online menol');
 
     } catch (error) {
         console.log(error);
@@ -24,5 +24,6 @@ const dbConnection = async() => {
 
 
 module.exports = {
-    dbConnection
+    dbConnection,
+    db
 }
