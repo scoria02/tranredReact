@@ -12,7 +12,7 @@ dbConnection();
 // CORS
 app.use(cors())
 // Configurar cabeceras y cors
-var whitelist = ['http://10.198.68.21:4000']
+var whitelist = ['http://localhost:4000/api/puntoConsulta']
 var corsOptions = {
   origin: function (origin, callback) {
       console.log(origin)
