@@ -5,7 +5,7 @@
 
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { getTerm, getPlan } = require('../controllers/puntoConsulta');
+const { getTerm, getPlan, getMovimiento } = require('../controllers/puntoConsulta');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
@@ -17,6 +17,7 @@ const router = Router();
 
 router.get('/:comerRif', getTerm);
 router.get('/plan/:aboTerminal', getPlan);
+router.get('/movientos/:aboTerminal/:fechaIni/:fechaFin', getMovimiento )
 
 
 

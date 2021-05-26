@@ -12,7 +12,7 @@ dbConnection();
 // CORS
 app.use(cors())
 // Configurar cabeceras y cors
-var whitelist = ['http://localhost:4000','http://localhost:3000']
+var whitelist = ['http://localhost:4000','http://localhost:3000']                               
 var corsOptions = {
   origin: function (origin, callback) {
       console.log(origin)
@@ -41,7 +41,7 @@ app.use('/api/calls', require('./routes/calls'));
 app.use('/api/puntoConsulta', require('./routes/puntoConsulta'));
 // app.use('/api/puntoConsulta', cors(corsOptions) , require('./routes/puntoConsulta'));
 
-app.get("/prueba", cors(corsOptions) , async function (req, res) {
+app.get("/prueba", async function (req, res) {
     return res.json({hola: "chao"})
   });
 

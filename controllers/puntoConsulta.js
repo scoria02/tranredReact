@@ -93,10 +93,53 @@ const getPlan = async( req, res = response ) => {
 }
 
 
+//get Movimiento Por fecha
+const getMovimiento = async( req, res = response ) => {
+    
+    try {
+        
+        const { aboTerminal, fechaIni, fechaFin } = req.params;
+        console.log( aboTerminal, fechaIni, fechaFin )
+        let historico = await db.query(`SELECT  hisId as id
+            ,hisAmountTDD as MontoTarjetasDebito
+            ,hisAmountTDC as MontoTarjetasCredito
+            ,hisComisionBancaria as ComisionBancario
+            ,hisComisionMantenimiento as ComisionMantenimiento
+            ,hisIvaSobreMantenimiento as IvaMantenimiento
+            ,hisAmountTotal as MontoPagado
+            ,hisFechaEjecucion as Fecha
+            ,hisDebitoContraCargo
+                FROM Historico
+            where aboTerminal = $aboTerminal and  hisFechaEjecucion between $fechaIni and $fechaFin `, {
+            type: QueryTypes.SELECT,
+            bind: {
+                aboTerminal: aboTerminal,
+                fechaIni: fechaIni,
+                fechaFin: fechaFin
+            }});
+    
+        res.json({
+            ok: true,
+            historico,
+            msg: 'Perfect Rata Blanca'
+        });
+
+    } catch (error) {
+        
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador',
+        });
+    }
+    
+
+}
+
 
 
 module.exports = {
     getTerm,
     getPlan,
+    getMovimiento,
     
 }
