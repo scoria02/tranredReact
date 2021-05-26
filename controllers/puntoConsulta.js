@@ -1,9 +1,7 @@
 const { response } = require('express');
 const moment = require('moment');
-const { Op, QueryTypes } = require('sequelize');
-const { db, dbConnection } = require('../database/config');
-const { generarJWT } = require('../helpers/jwt');
-const { Call, Client, Request, TypeRequest } = require('../models/Call');
+const { QueryTypes } = require('sequelize');
+const { db } = require('../database/config');
 
 
 const getTerm = async( req, res = response ) => {
@@ -11,10 +9,12 @@ const getTerm = async( req, res = response ) => {
     try {
         
         const { comerRif } = req.params;
+        console.log(comerRif)
         let term = await db.query(`SELECT DISTINCT e.aboTerminal
+		
         FROM [MilPagos].[dbo].[Comercios]
         INNER JOIN Abonos AS e ON comerCod = e.aboCodComercio 
-        where comerRif = $comerRif
+        where comerRif = $comerRif and comerEstatus = '5'
         `, {
             type: QueryTypes.SELECT,
             bind: {
@@ -47,8 +47,9 @@ const getPlan = async( req, res = response ) => {
         const fechaPago = moment().format('YYYY-MM-D');
         const fechaProceso = moment().format('YYYY-MM-D');
         const { aboTerminal } = req.params;
-        
+        console.log( aboTerminal )
         let plan = await db.query(`SELECT 
+        idPlanCuota,
          aboTerminal
          ,cast(ROUND(montoTotal,2) as numeric(17,2)) as MontoTotal -- devuelve entero con dos decimales 
          ,cast(ROUND(montoComision,2) as numeric(17,2)) as MontoPagado -- devuelve entero con dos decimales

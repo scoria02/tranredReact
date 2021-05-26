@@ -15,7 +15,7 @@ const router = Router();
 // router.use( validarJWT );
 
 
-router.get('/:aboCodComercio', getTerm);
+router.get('/:comerRif', getTerm);
 router.get('/plan/:aboTerminal', getPlan);
 
 

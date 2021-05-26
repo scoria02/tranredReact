@@ -38,10 +38,10 @@ app.use( express.json() );
 app.use('/api/auth', require('./routes/auth') );
 app.use('/api/events', require('./routes/events') );
 app.use('/api/calls', require('./routes/calls'));
-// app.use('/api/puntoConsulta', require('./routes/puntoConsulta'));
-app.use('/api/puntoConsulta', cors(corsOptions) , require('./routes/puntoConsulta'));
+app.use('/api/puntoConsulta', require('./routes/puntoConsulta'));
+// app.use('/api/puntoConsulta', cors(corsOptions) , require('./routes/puntoConsulta'));
 
-app.get("/prueba", async function (req, res) {
+app.get("/prueba", cors(corsOptions) , async function (req, res) {
     return res.json({hola: "chao"})
   });
 
