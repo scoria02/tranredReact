@@ -136,14 +136,32 @@ const getMovimiento = async( req, res = response ) => {
 
 }
 
+
 //Para Descargar Excel
 const getExcel = async( req, res = response ) => {
 
     try {
-        const { comerRif } = req.params;
-        console.log(comerRif)
-		// res.download('C:\\Archivos\\nodeArchivos\\V15161929.xlsx')
-        const file = `C:\\Archivos\\nodeArchivos\\V15161928.xlsx`;
+        const nombreMes = {
+            '01': 'ENERO',
+            '02': 'FEBRERO',
+            '03': 'MARZO',
+            '04': 'ABRIL',
+            '05': 'MAYO',
+            '06': 'JUNIO',
+            '07': 'JULIO',
+            '08': 'AGOSTO',
+            '09': 'SEPTIEMBRE',
+            '10': 'OCTUBRE',
+            '11': 'NOVIEMBRE',
+            '12': 'DICIEMBRE',
+
+        }
+       
+        const { comerRif, month, year, aboTerminal } = req.params;
+        const mes = nombreMes[month];
+        console.log(comerRif, mes)
+		// res.download('C:\\Archivos\\nodeArchivos\\V15161929.xls')
+        const file = `/mnt/reportes/${year}/${mes}/${aboTerminal}/${comerRif}_${aboTerminal}_${month}${year}.xls`;
         console.log(file)
         res.download(file);  
     
@@ -159,10 +177,52 @@ const getExcel = async( req, res = response ) => {
 }
 
 
+//Para Descargar Excel
+const getPdf = async( req, res = response ) => {
+
+    try {
+        const nombreMes = {
+            '01': 'ENERO',
+            '02': 'FEBRERO',
+            '03': 'MARZO',
+            '04': 'ABRIL',
+            '05': 'MAYO',
+            '06': 'JUNIO',
+            '07': 'JULIO',
+            '08': 'AGOSTO',
+            '09': 'SEPTIEMBRE',
+            '10': 'OCTUBRE',
+            '11': 'NOVIEMBRE',
+            '12': 'DICIEMBRE',
+
+        }
+       
+        const { comerRif, month, year, aboTerminal } = req.params;
+        const mes = nombreMes[month];
+        console.log(comerRif, mes)
+		// res.download('C:\\Archivos\\nodeArchivos\\V15161929.xls')
+        
+        const file = `/mnt/reportes/${year}/${mes}/${aboTerminal}/${comerRif}_${aboTerminal}_${month}${year}.pdf`;
+        // const file = `/mnt/reportes/2021/abril/01001246/J309863681_01001246_042021.pdf`;
+        console.log(file)
+        res.download(file);  
+    
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+    
+}
+
 
 module.exports = {
     getTerm,
     getPlan,
     getMovimiento,
     getExcel,
+    getPdf,
 }
