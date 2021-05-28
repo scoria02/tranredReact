@@ -7,8 +7,8 @@ const { db } = require('../database/config');
 const getTerm = async( req, res = response ) => {
 
     try {
-        
         const { comerRif } = req.params;
+        
         console.log(comerRif)
         let term = await db.query(`SELECT DISTINCT e.aboTerminal
 		
@@ -24,7 +24,9 @@ const getTerm = async( req, res = response ) => {
             res.json({
                 ok: true,
                 term,
-                msg: 'Perfect'
+                msg: 'Perfect',
+                // excel
+                
             });
 
     } catch (error) {
@@ -99,14 +101,13 @@ const getMovimiento = async( req, res = response ) => {
     try {
         
         const { aboTerminal, fechaIni, fechaFin } = req.params;
-        console.log( aboTerminal, fechaIni, fechaFin )
+        console.log( aboTerminal, fechaIni, fechaFin );
         let historico = await db.query(`SELECT  hisId as id
-            ,hisAmountTDD as MontoTarjetasDebito
-            ,hisAmountTDC as MontoTarjetasCredito
+            ,([hisAmountTDD]+[hisAmountTDC]+[hisAmountComisionBanco]) as Monto
             ,hisComisionBancaria as ComisionBancario
             ,hisComisionMantenimiento as ComisionMantenimiento
             ,hisIvaSobreMantenimiento as IvaMantenimiento
-            ,hisAmountTotal as MontoPagado
+            ,hisAmountTotal as MontoAbonado
             ,hisFechaEjecucion as Fecha
             ,hisDebitoContraCargo
                 FROM Historico
@@ -135,11 +136,33 @@ const getMovimiento = async( req, res = response ) => {
 
 }
 
+//Para Descargar Excel
+const getExcel = async( req, res = response ) => {
+
+    try {
+        const { comerRif } = req.params;
+        console.log(comerRif)
+		// res.download('C:\\Archivos\\nodeArchivos\\V15161929.xlsx')
+        const file = `C:\\Archivos\\nodeArchivos\\V15161928.xlsx`;
+        console.log(file)
+        res.download(file);  
+    
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
+    
+}
+
 
 
 module.exports = {
     getTerm,
     getPlan,
     getMovimiento,
-    
+    getExcel,
 }
