@@ -21,6 +21,7 @@
     "mongoose": "^5.9.18",
     "mysql2": "^2.2.5",
     "sequelize": "^6.6.1",
-    "socket.io": "^4.0.1"
+    "socket.io": "^4.0.1",
+    "tedious": "^11.0.8"
   }
 }
